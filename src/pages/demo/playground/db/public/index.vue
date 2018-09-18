@@ -28,6 +28,10 @@
         </el-select>
         <p>清空当前用户数据</p>
         <el-button @click="handleClear">清空</el-button>
+        <p>测试</p>
+        <el-button @click="handleTest">handleTest</el-button>
+        <p>测试 2</p>
+        <el-button @click="handleTest2">handleTest2</el-button>
       </el-col>
       <el-col :span="12">
         <d2-highlight :code="dataDisplay"/>
@@ -64,6 +68,42 @@ export default {
       'database',
       'databaseClear'
     ]),
+    async handleTest () {
+      console.log('你触发了一次 handleTest')
+      const db = await this.database()
+      db
+        .set('myArray', [
+          { name: '1', value: '1' },
+          { name: '2', value: '2' },
+          { name: '3', value: '3' }
+        ])
+        .write()
+      this.load()
+    },
+    async handleTest2 () {
+      console.log('你触发了一次 handleTest2')
+      await this.$store.dispatch('d2admin/db/set', {
+        dbName: 'sys',
+        path: 'menu.header',
+        value: [
+          { name: '1', value: '1' },
+          { name: '2', value: '2' },
+          { name: '3', value: '3' }
+        ],
+        user: true
+      })
+      console.log('你触发了第二次 handleTest2')
+      await this.$store.dispatch('d2admin/db/set', {
+        dbName: 'sys',
+        path: 'menu.header',
+        value: [
+          { name: '4', value: '4' },
+          { name: '5', value: '5' },
+          { name: '6', value: '6' }
+        ],
+        user: true
+      })
+    },
     /**
      * 加载本地数据
      */
